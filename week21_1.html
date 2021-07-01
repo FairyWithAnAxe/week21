@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #result {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GIF</h1>
+
+    <div>Search:
+        <input type="text" name="" id="gifSearch">
+        <button onclick="onSearch()">Search!</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        let apiKey = "qAsPbgsZtcuZMn69aXSemWAecpWYyZx0";
+        let gifSearch = document.getElementById("gifSearch").value;
+        let limit = 5;
+
+        function onSearch() {
+            fetch(
+                    `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${gifSearch}&limit=${limit}&offset=0&rating=g&lang=en`)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json);
+                    /*for (let i = 0; i < limit; i++) {
+                        console.log(json.data[i].url);
+                        let url = json.data[i].url;
+                        document.getElementById("result").innerHTML += `<img src="${url}" alt="gif">`;
+                    }*/
+                })
+                .catch(error => console.log(error));
+        };
+    </script>
+</body>
+
+</html>
