@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        #errorMessage {
+            color: red;
+        }
+
+        .popup {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            transition: all 0.8s ease 0s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .popup__body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 10px;
+        }
+
+        .popup__content {
+            background-color: #fff;
+            color: #000;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            opacity: 0;
+            transform: translate(0px, -100%);
+            transition: all 0.8s ease 0s;
+        }
+
+        .popup__title {
+            text-align: center;
+            margin: 0px 0px 1em 0px;
+            font-weight: bold;
+            font-size: 21px;
+            line-height: 26px;
+            letter-spacing: 0.04em;
+            color: #333333;
+        }
+
+        .popup__close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 20px;
+            color: #C1C1C1;
+            text-decoration: none;
+        }
+
+        .popup:target {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup__area {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .popup:target .popup__content {
+            transform: translate(0px, 0px);
+            opacity: 1;
+        }
+
+        .popup-link {
+            text-decoration: none;
+            color: green;
+        }
+
+        .popup__img {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .popup__btn {
+            margin-top: 50px;
+        }
+
+        .contacts {
+            border: 1px solid olive;
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+        }
+
+        .contacts__title {
+            font-weight: 300;
+            font-size: 64px;
+            line-height: 64px;
+            color: #BDBDBD;
+        }
+
+        .contacts__form {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .contact_form__item {
+            padding-bottom: 20px;
+        }
+
+        .contact_form__input {
+            width: 100%;
+            background: #F3F3F3;
+            border: none;
+            padding: 10px 0px;
+        }
+
+        .contact_form__text {
+            font-size: 12px;
+        }
+
+        .checkbox {
+            background-color: #F3F3F3;
+            margin-right: 5px;
+            font-size: 14px;
+            line-height: 17px;
+            letter-spacing: 0.03em;
+            color: #333333;
+        }
+
+        .submit_button {
+            background: #333333;
+            color: white;
+            border-radius: 5px;
+            height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <main class="main">
+            <a href="#popup" class="popup-link">Обратная связь</a>
+        </main>
+
+
+
+        <div id="popup" class="popup">
+            <a href="##" class="popup__area"></a>
+            <div class="popup__body">
+                <div class="popup__content">
+                    <a href="##" class="popup__close">X</a>
+                    <div class="popup__title">Задать вопрос</div>
+                    <div class="popup__text">
+                        <div class="contacts__form">
+                            <form class="contact_form" onsubmit="return false;">
+                                <div class="contact_form__item">
+                                    <input type="text" name="name" id="name" class="contact_form__input first_input"
+                                        placeholder="Имя">
+                                </div>
+                                <div class="contact_form__item">
+                                    <input type="tel" name="tel" id="phone" class="contact_form__input tel_input"
+                                        placeholder="Номер телефона*">
+                                </div>
+                                <div class="contact_form__item">
+                                    <input type="email" name="email" id="email" class="contact_form__input email"
+                                        placeholder="E-mail*">
+                                </div>
+                                <div class="contact_form__item">
+                                    <input type="text" name="product" class="contact_form__input product"
+                                        placeholder="Интересующий товар/услуга">
+                                </div>
+                                <div class="contact_form__item">
+                                    <textarea name="comment" id="comment" placeholder="Сообщение*"
+                                        class="contact_form__input comment"></textarea>
+                                </div>
+                                <div class="contact_form__item">
+                                    <input class="checkbox" type="checkbox" name="confidencial"
+                                        id="confidencial">Отправляя
+                                    заявку, Вы
+                                    соглашаетесь с политикой
+                                    конфиденциальности
+                                </div>
+
+
+                                <!-- <h2>Оплата</h2>
+                                <div class="contact_form__item">
+                                    <input type="text" name="card" id="card" class="contact_form__input"
+                                        placeholder="Номер банковской карты" maxlength="16">
+                                        <input type="text" name="date" id="date" class="contact_form__input"
+                                        placeholder="Срок действия">
+                                        <input type="text" name="cvv" id="cvv" class="contact_form__input"
+                                        placeholder="Секретный код CVV" minlength="3" maxlength="3">
+                                </div> -->
+
+
+                                <div class="contact_form__item">
+                                    <!--Error message-->
+                                    <div id="errorMessage"></div>
+                                    <div id="helloMessage"></div>
+                                    <button class="contact_form__input submit_button" id="btn"> Отправить
+                                        <!--<a href="#popup_2" class="popup-link">Отправить</a>-->
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div id="popup_2" class="popup">
+        <a href="##" class="popup__area"></a>
+        <div class="popup__body">
+            <div class="popup__content">
+                <a href="##" class="popup__close">X</a>
+                <div class="popup__img">
+                    <img src="/assets/images/success.png" alt="">
+                </div>
+                <div class="popup__title">Спасибо!</div>
+                <div class="popup__text">
+                    Ваше сообщение отправлено мы свяжемся с вами в ближайшее время
+                    <div class="popup__btn">
+                        <button class="contact_form__input submit_button">
+                            <a href="#" class="popup-link">Вернуться назад</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    </div>
+    <script>
+        function check() {
+            let email = document.getElementById("email");
+            let phone = document.getElementById("phone");
+            let comment = document.getElementById("comment");
+            let confidencial = document.getElementById("confidencial");
+            let name = document.getElementById("name").value;
+            //card
+            let card = document.getElementById("card");
+            let date = document.getElementById("date");
+            let cvv = document.getElementById("cvv");
+
+            document.getElementById("errorMessage").innerHTML = "";
+            document.getElementById("helloMessage").innerHTML = "";
+
+            if (email.value == '') {
+                document.getElementById("errorMessage").innerHTML += "Ваш емейл не заполнен<br>"
+            } else if (!validateEmail(email.value)) {
+                document.getElementById("errorMessage").innerHTML += "Ваш емейл заполнен не верно<br>"
+            }
+
+            function validateEmail(email) {
+                let regexEmail =
+                    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+                return regexEmail.test(email);
+            }
+
+            if (phone.value == '') {
+                document.getElementById("errorMessage").innerHTML += "Ваш телефон не заполнен<br>"
+            } else if (!validatePhone(phone.value)) {
+                document.getElementById("errorMessage").innerHTML += "Ваш телефон заполнен не верно<br>"
+            }
+
+
+            function validatePhone(phone) {
+                let regexPhone = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
+                return regexPhone.test(phone);
+            }
+
+            //card
+            if (card.value == '') {
+                document.getElementById("errorMessage").innerHTML += "Введите номер банковской карты<br>"
+            } else if (!validateCard(card.value)) {
+                document.getElementById("errorMessage").innerHTML += "Номер банковской карты заполнен не верно<br>"
+            }
+
+            function validateCard(card) {
+                let regexCard =
+                    /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
+                return regexCard.test(card);
+            }
+
+            if (date.value == '') {
+                document.getElementById("errorMessage").innerHTML += "Введите срок действия банковской карты<br>"
+            } else if (!validateDate(date.value)) {
+                document.getElementById("errorMessage").innerHTML +=
+                    "Срок действия банковской карты заполнен не верно<br>"
+            }
+
+            function validateDate(date) {
+                let regexDate = /^(0[1-9]|1[0-2])\/[0-9]{2}$/;
+                return regexDate.test(date);
+            }
+
+            if (cvv.value == '') {
+                document.getElementById("errorMessage").innerHTML += "Введите секретный код банковской карты<br>"
+            } else if (!validateCard(cvv.value)) {
+                document.getElementById("errorMessage").innerHTML += "Секретный код заполнен не верно<br>"
+            }
+
+            function validateCard(cvv) {
+                let regexCvv = /^\d{1,}$/;
+                return regexCvv.test(cvv);
+            }
+
+
+
+            if (comment.value == '') {
+                document.getElementById("errorMessage").innerHTML += "Напишите сообщение<br>"
+            }
+
+            if (confidencial.checked == false) {
+                document.getElementById("errorMessage").innerHTML +=
+                    "Подтвердите свое согласие с политикой конфиденциальности<br>"
+            }
+
+            if (document.getElementById("errorMessage").innerHTML == "") {
+                document.getElementById("helloMessage").innerHTML += `Добро пожаловать, ${name}!<br>`
+            }
+
+
+        }
+
+
+
+        btn.onclick = function (event) {
+            event.preventDefault();
+            let user = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            }
+
+            fetch('https://httpbin.org/post', {
+                    method: 'POST',
+                    body: JSON.stringify(user),
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    }
+                })
+                .then(response => response.json())
+                .then(user => {
+                    console.log(user);
+                })
+                .catch(error => console.log(error));
+        }
+    </script>
+</body>
+
+</html>

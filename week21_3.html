@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="form">
+        <div>
+            <label for="name">Кличка питомца</label>
+            <input name="name" type="text" id="name" />
+        </div>
+        <div>
+            <label for="owner">Имя владельца</label>
+            <input name="owner" type="text" id="owner" />
+        </div>
+        <div>
+            <label for="tel">Контакты</label>
+            <input name="tel" type="text" id="tel" />
+        </div>
+        <div>Порода:
+            <select name="breed">
+                <option name="breed" value="Maine Coon">Мейнкун</option>
+                <option name="breed" value="british">Британская</option>
+                <option name="breed" value="sphinx">Сфинкс</option>
+                <option name="breed" value="persian">Персидская</option>
+                <option name="breed" value="siamese">Сиамская</option>
+            </select>
+        </div>
+        <div>
+            <fieldset>
+                <legend>Чем питается?</legend>
+                <div><input type="checkbox" name="feed" value="dry" /> сухой корм</div>
+                <div><input type="checkbox" name="feed" value="wet" /> влажный корм</div>
+                <div><input type="checkbox" name="feed" value="nature" /> натуральный корм</div>
+            </fieldset>
+        </div>
+        <div>
+            <label for="sex">Пол питомца</label>
+            <br />Самка
+            <input type="radio" name=sex value="female" />
+            <br />Самец
+            <input type="radio" name=sex value="male" />
+        </div>
+        <!--<div>Коментарий владельца
+        <textarea rows="5"></textarea>
+    </div>
+    <div>Фото питомца
+        <input type="file" />
+    </div>
+    <div>
+        <button>Сохранить</button>
+    </div>-->
+        <div>
+            <button id="btn">Oтправить</button>
+        </div>
+    </form>
+
+    <script>
+        btn.onclick = function (e) {
+            e.preventDefault();
+
+            fetch("https://httpbin.org/post", {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                .then(response => response.json())
+                .then(cat => {
+                    console.log(cat);
+                })
+                .catch(error => console.log(error));
+        }
+    </script>
+</body>
+
+</html>
